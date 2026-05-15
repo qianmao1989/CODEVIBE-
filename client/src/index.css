@@ -50,11 +50,12 @@ a:hover {
 header {
   background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0a0e27 100%);
   color: white;
-  padding: 2rem 2.5rem;
-  display: flex;
+  padding: 1rem 2.5rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: auto auto;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
   border-bottom: 3px solid #ff4d6d;
   box-shadow: 0 0 30px rgba(255, 77, 109, 0.5),
               inset 0 0 20px rgba(255, 77, 109, 0.1);
@@ -85,6 +86,8 @@ header::before {
   display: flex;
   align-items: center;
   z-index: 1;
+  grid-column: 1;
+  grid-row: 1;
 }
 
 .header-logo-wrapper .logo-link {
@@ -96,12 +99,12 @@ header::before {
 
 /* Logo */
 header img {
-  width: 70px;
+  width: 60px;
   height: auto;
   filter: drop-shadow(0 0 15px rgba(255, 77, 109, 0.8));
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   z-index: 1;
-  padding: 0.5rem;
+  padding: 0.4rem;
   border-radius: 8px;
   border: 2px solid rgba(255, 77, 109, 0.4);
   cursor: pointer;
@@ -113,28 +116,33 @@ header img:hover {
   border-color: rgba(255, 77, 109, 0.8);
 }
 
-/* Navigation */
+/* Navigation — pinned to right */
 .header-nav {
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem;
   z-index: 1;
+  align-items: center;
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
 }
 
 .nav-link {
   text-decoration: none;
   color: white;
   font-weight: 600;
-  background: linear-gradient(135deg, rgba(255, 77, 109, 0.3), rgba(255, 133, 161, 0.3));
+  background: linear-gradient(135deg, rgba(255, 77, 109, 0.25), rgba(255, 133, 161, 0.25));
   border: 2px solid rgba(255, 77, 109, 0.6);
-  padding: 0.6rem 1.2rem;
+  padding: 0.55rem 1rem;
   border-radius: 8px;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
   transition: all 0.3s cubic-bezier(0.4, 0.2, 0.2, 1);
   position: relative;
   overflow: hidden;
-  text-shadow: 0 0 10px rgba(255, 77, 109, 0.6);
+  white-space: nowrap;
+  font-size: 0.9rem;
 }
 
 .nav-link::before {
@@ -162,7 +170,7 @@ header img:hover {
 
 /* Icons */
 .nav-icon {
-  font-size: 1.1rem;
+  font-size: 1rem;
   animation: float 2s ease-in-out infinite;
 }
 
@@ -175,19 +183,19 @@ header img:hover {
   50% { transform: translateY(-3px); }
 }
 
-/* Title section */
+/* Title section — centred spanning all columns */
 header h1 {
-  width: 100%;
+  grid-column: 1 / -1;
+  grid-row: 2;
   text-align: center;
-  margin-top: 1rem;
-  font-size: 2.5rem;
+  margin-top: 0.25rem;
+  font-size: 2.2rem;
   font-weight: 900;
   z-index: 1;
   background: linear-gradient(135deg, #ff4d6d, #ff85a1, #ff6b81);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: 0 0 20px rgba(255, 77, 109, 0.5);
   animation: titlePulse 3s ease-in-out infinite;
 }
 
@@ -197,14 +205,16 @@ header h1 {
 }
 
 header p {
-  width: 100%;
+  grid-column: 1 / -1;
+  grid-row: 3;
   text-align: center;
-  font-size: 1rem;
-  opacity: 0.95;
+  font-size: 0.9rem;
+  opacity: 0.85;
   z-index: 1;
   color: #b0b8d4;
   font-weight: 500;
   letter-spacing: 1px;
+  margin-bottom: 0.25rem;
 }
 /* Global Reset */
 *,
@@ -312,6 +322,16 @@ h3 {
   box-shadow: 
     0 0 15px rgba(255, 77, 109, 0.4),
     inset 0 0 20px rgba(255, 77, 109, 0.1);
+}
+
+.course-box img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2/3;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  max-width: 200px;
 }
 
 /* Block shadow effect - Minecraft 3D */
@@ -953,6 +973,7 @@ textarea::placeholder {
 }
 
 input, select {
+  width: 100%;
   padding: 1rem;
   border-radius: 4px;
   border: 2px solid var(--primary-red);
