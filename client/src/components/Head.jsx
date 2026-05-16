@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FaSignInAlt,
   FaUserPlus,
@@ -7,12 +7,29 @@ import {
   FaGamepad,
   FaBars,
   FaTimes,
+  FaSignOutAlt,
 } from "react-icons/fa";
 
 import logo from "../assets/websitelogo.png";
 
 const Head = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+    navigate("/login");
+    closeMobileMenu();
+  };
 
   // Toggle mobile menu
   const toggleMenu = () => {
@@ -54,32 +71,45 @@ const Head = () => {
 
       {/* Navigation */}
       <div className={`header-nav ${menuOpen ? "open" : ""}`}>
-        <Link
-          to="/Login"
-          className="nav-link"
-          onClick={closeMobileMenu}
-        >
-          <FaSignInAlt className="nav-icon" />
-          <span>Login</span>
-        </Link>
-
-        <Link
-          to="/Signup"
-          className="nav-link"
-          onClick={closeMobileMenu}
-        >
-          <FaUserPlus className="nav-icon" />
-          <span>Sign Up</span>
-        </Link>
-
-        <Link
-          to="/Dashboard"
-          className="nav-link"
-          onClick={closeMobileMenu}
-        >
-          <FaTachometerAlt className="nav-icon" />
-          <span>Dashboard</span>
-        </Link>
+        {user ? (
+          <>
+            <Link
+              to="/Dashboard"
+              className="nav-link"
+              onClick={closeMobileMenu}
+            >
+              <FaTachometerAlt className="nav-icon" />
+              <span>Dashboard</span>
+            </Link>
+            <button
+              className="nav-link"
+              onClick={handleLogout}
+              style={{ background: "none", border: "none", cursor: "pointer" }}
+            >
+              <FaSignOutAlt className="nav-icon" />
+              <span>Logout</span>
+            </button>
+          </>
+        ) : (
+          <>
+            <Link
+              to="/Login"
+              className="nav-link"
+              onClick={closeMobileMenu}
+            >
+              <FaSignInAlt className="nav-icon" />
+              <span>Login</span>
+            </Link>
+            <Link
+              to="/Signup"
+              className="nav-link"
+              onClick={closeMobileMenu}
+            >
+              <FaUserPlus className="nav-icon" />
+              <span>Sign Up</span>
+            </Link>
+          </>
+        )}
       </div>
 
       {/* Heading */}
